@@ -58,7 +58,7 @@ const setSantri = asyncHandler(async (req, res) => {
 
     const updatedMentor = await Mentor.findByIdAndUpdate(mentor._id, {
         $push: {
-            santri: santri.name
+            santri: santri.id
         }
     }, {
         new: true
@@ -94,7 +94,7 @@ const updateSantri = asyncHandler(async (req, res) => {
 
     const updatedMentor = await Mentor.findByIdAndUpdate(santri.mentorId, {
         $set: {
-            'santri.$[elem].name': updatedSantri.name
+            'santri.$[elem]': updatedSantri.name
         }
     }, {
         arrayFilters: [{ 'elem.name': santri.name }],
@@ -126,7 +126,7 @@ const deleteSantri = asyncHandler(async (req, res) => {
 
     const updatedMentor = await Mentor.findByIdAndUpdate(santri.mentorId, {
         $pull: {
-            'santri': santri.name
+            'santri': santri.id
         }
     }, {
         new: true
