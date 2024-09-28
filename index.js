@@ -11,6 +11,10 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
+app.get("/", (req, res) => {
+    res.send("API running");
+});
+
 app.use("/api/mentors", require("./routes/mentorRoutes"));
 app.use("/api/santri", require("./routes/santriRoutes"));
 app.use("/api/setoran", require("./routes/setoranRoutes"));
