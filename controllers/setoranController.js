@@ -2,6 +2,32 @@ const asyncHandler = require('express-async-handler')
 const Setoran = require('../models/setoranModel')
 const Santri = require('../models/santriModel')
 
+// @desc Get setoran by kategori
+// @route GET /api/setoran/kategori/:kategori
+// @access Public
+//* params : kategori
+const getSetoranByKategori = asyncHandler(async (req, res) => {
+    const setoran = await Setoran.find({ kategori: req.params.kategori })
+
+    res.status(200).json({
+        message: 'Get setoran by kategori',
+        data: setoran
+    })
+})
+
+// @desc Get setoran by juz
+// @route GET /api/setoran/juz/:juz
+// @access Public
+//* params : juz
+const getSetoranByJuz = asyncHandler(async (req, res) => {
+    const setoran = await Setoran.find({ juz: req.params.juz })
+
+    res.status(200).json({
+        message: 'Get setoran by juz',
+        data: setoran
+    })
+})
+
 // @desc Get all setoran
 // @route GET /api/setoran
 // @access Public
@@ -18,11 +44,11 @@ const getSetoran = asyncHandler(async (req, res) => {
 // @route GET /api/setoran/:id
 // @access Public
 //* params : id
-const getSetoranBySantriId = asyncHandler(async (req, res) => {
+const getSetoranById = asyncHandler(async (req, res) => {
     const setoran = await Setoran.findById(req.params.id)
 
     res.status(200).json({
-        message: 'Get setoran by santriId',
+        message: 'Get setoran by id',
         data: setoran
     })
 })
@@ -151,7 +177,9 @@ const deleteSetoran = asyncHandler(async (req, res) => {
 
 module.exports = {
     getSetoran,
-    getSetoranBySantriId,
+    getSetoranById,
+    getSetoranByKategori,
+    getSetoranByJuz,
     updateSetoran,
     setSetoran,
     deleteSetoran

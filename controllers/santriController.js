@@ -38,6 +38,42 @@ const getSantriById = asyncHandler(async (req, res) => {
     })
 })
 
+// @desc get Santri by Mentor
+// @route GET /api/santri/mentor/:mentor
+// @access Public
+//* params : mentor
+const getSantriByMentor = asyncHandler(async (req, res) => {
+    const santri = await Santri.find({ mentorName: req.params.mentor })
+
+    if (!santri) {
+        res.status(400)
+        throw new Error('Santri not found')
+    }
+
+    res.status(200).json({
+        message: 'Get santri by mentor',
+        data: santri
+    })
+})
+
+// @desc get Santri by Jurusan
+// @route GET /api/santri/jurusan/:jurusan
+// @access Public
+//* params : jurusan
+const getSantriByJurusan = asyncHandler(async (req, res) => {
+    const santri = await Santri.find({ jurusan: req.params.jurusan })
+
+    if (!santri) {
+        res.status(400)
+        throw new Error('Santri not found')
+    }
+
+    res.status(200).json({
+        message: 'Get santri by jurusan',
+        data: santri
+    })
+})
+
 // @desc Create new santri
 // @route POST /api/santri
 // @access Private
@@ -159,6 +195,8 @@ const deleteSantri = asyncHandler(async (req, res) => {
 module.exports = {
     getSantri,
     getSantriById,
+    getSantriByJurusan,
+    getSantriByMentor,
     setSantri,
     updateSantri,
     deleteSantri
