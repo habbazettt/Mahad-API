@@ -43,6 +43,7 @@ const setMentor = asyncHandler(async (req, res) => {
 
     const mentor = await Mentor.create({
         name: req.body.name,
+        gender: req.body.gender,
         santri: []
     })
 
@@ -51,6 +52,7 @@ const setMentor = asyncHandler(async (req, res) => {
         data: {
             id: mentor._id,
             name: mentor.name,
+            gender: mentor.gender,
             santri: mentor.santri
         }
     })
