@@ -56,58 +56,51 @@ const getSantriByMentor = asyncHandler(async (req, res) => {
     })
 })
 
-// @desc get Santri by Jurusan
-// @route GET /api/santri/jurusan/:jurusan
-// @access Public
-//* params : jurusan
-const getSantriByJurusan = asyncHandler(async (req, res) => {
-    const santri = await Santri.find({ jurusan: req.params.jurusan })
-
-    if (!santri) {
-        res.status(400)
-        throw new Error('Santri not found')
-    }
-
-    res.status(200).json({
-        message: 'Get santri by jurusan',
-        data: santri
-    })
-})
-
 // @desc Create new santri
 // @route POST /api/santri
 // @access Private
 //* body: mentorId, name, jurusan 
 const setSantri = asyncHandler(async (req, res) => {
-    const mentor = await Mentor.findById(req.body.mentorId)
-    if (!req.body) {
+    if (!req.body || !Array.isArray(req.body)) {
         res.status(400)
-        throw new Error('Please add a text field')
+        throw new Error('Please add an array of santri field')
     }
 
-    const santri = await Santri.create({
-        mentorId: mentor._id,
-        mentorName: mentor.name,
-        name: req.body.name,
-        jurusan: req.body.jurusan
-    })
+    const santriList = req.body
+    const santriData = []
 
-    const updatedMentor = await Mentor.findByIdAndUpdate(mentor._id, {
-        $push: {
-            santri: santri.id
+    for (const santri of santriList) {
+        const mentor = await Mentor.findById(santri.mentorId)
+        if (!mentor) {
+            res.status(400)
+            throw new Error(`Mentor not found for santri: ${santri.name}`)
         }
-    }, {
-        new: true
-    })
 
-    if (!updatedMentor) {
-        res.status(400)
-        throw new Error('Mentor not found')
+        const newSantri = await Santri.create({
+            mentorId: mentor._id,
+            mentorName: mentor.name,
+            name: santri.name,
+        })
+
+        santriData.push(newSantri)
+
+        const updatedMentor = await Mentor.findByIdAndUpdate(mentor._id, {
+            $push: {
+                santri: newSantri.name
+            }
+        }, {
+            new: true
+        })
+
+        if (!updatedMentor) {
+            res.status(400)
+            throw new Error(`Mentor not found for santri: ${santri.name}`)
+        }
     }
 
     res.status(200).json({
         message: 'Create santri',
-        data: santri
+        data: santriData
     })
 })
 
@@ -162,7 +155,7 @@ const deleteSantri = asyncHandler(async (req, res) => {
 
     const updatedMentor = await Mentor.findByIdAndUpdate(santri.mentorId, {
         $pull: {
-            'santri': santri.id
+            'santri': santri.name
         }
     }, {
         new: true
@@ -195,7 +188,6 @@ const deleteSantri = asyncHandler(async (req, res) => {
 module.exports = {
     getSantri,
     getSantriById,
-    getSantriByJurusan,
     getSantriByMentor,
     setSantri,
     updateSantri,

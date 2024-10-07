@@ -31,6 +31,24 @@ const getMentorById = asyncHandler(async (req, res) => {
     })
 })
 
+// @desc Get Mentor by gender
+// @route GET /api/mentors/gender/:gender
+// @access Public
+//* params : gender
+const getMentorByGender = asyncHandler(async (req, res) => {
+    const mentor = await Mentor.find({ gender: req.params.gender })
+
+    if (!mentor) {
+        res.status(400)
+        throw new Error('Mentor not found')
+    }
+
+    res.status(200).json({
+        message: 'Get mentor by gender',
+        data: mentor
+    })
+})
+
 // @desc Create new mentor
 // @route POST /api/mentors
 // @access Private
@@ -110,6 +128,7 @@ const deleteMentor = asyncHandler(async (req, res) => {
 module.exports = {
     getMentors,
     getMentorById,
+    getMentorByGender,
     setMentor,
     updateMentor,
     deleteMentor

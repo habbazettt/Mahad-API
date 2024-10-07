@@ -1,6 +1,7 @@
 const asyncHandler = require('express-async-handler')
 const Setoran = require('../models/setoranModel')
 const Santri = require('../models/santriModel')
+const { getTotalHalaman, getHalaman } = require('../utils/helper')
 
 // @desc Get setoran by kategori
 // @route GET /api/setoran/kategori/:kategori
@@ -70,7 +71,8 @@ const setSetoran = asyncHandler(async (req, res) => {
         santriName: santri.name,
         kategori: req.body.kategori,
         juz: req.body.juz,
-        total: req.body.total
+        halaman: req.body.halaman,
+        total: getHalaman(req.body.halaman).length,
     })
 
     const updatedSantri = await Santri.findByIdAndUpdate(santri._id, {
@@ -78,9 +80,10 @@ const setSetoran = asyncHandler(async (req, res) => {
             setoran: {
                 kategori: setoran.kategori,
                 juz: setoran.juz,
+                halaman: setoran.halaman,
                 total: setoran.total
-            }
-        }
+            },
+        },
     }, {
         new: true
     })

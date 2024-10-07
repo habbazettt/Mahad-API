@@ -14,10 +14,6 @@ const santriSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    jurusan: {
-        type: String,
-        required: true
-    },
     setoran: {
         type: Array,
         default: []

@@ -18,12 +18,16 @@ const setoranSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
-    total: {
+    halaman: {
         type: String,
+        required: true
+    },
+    total: {
+        type: Number,
         required: true
     }
 }, {
-    timestamps: true
+    timestamps: true,
 })
 
 module.exports = mongoose.model('Setoran', setoranSchema)
