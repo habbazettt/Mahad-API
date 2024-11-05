@@ -1,7 +1,7 @@
 const asyncHandler = require('express-async-handler')
 const Setoran = require('../models/setoranModel')
 const Santri = require('../models/santriModel')
-const { getTotalHalaman, getHalaman } = require('../utils/helper')
+const { getHalaman } = require('../utils/helper')
 
 // @desc Get setoran by kategori
 // @route GET /api/setoran/kategori/:kategori
@@ -57,7 +57,7 @@ const getSetoranById = asyncHandler(async (req, res) => {
 // @desc Create setoran
 // @route POST /api/setoran
 // @access Private
-//* body : santriId, kategori, juz, total
+//* body : santriId, kategori, juz, halaman
 const setSetoran = asyncHandler(async (req, res) => {
     const santri = await Santri.findById(req.body.santriId)
 
