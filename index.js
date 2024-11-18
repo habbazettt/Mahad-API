@@ -7,6 +7,8 @@ const connectDB = require("./config/db")
 
 const app = express();
 
+connectDB()
+
 app.use(cors({
     origin: 'http://localhost:5173',
 }));
@@ -25,6 +27,5 @@ app.use("/api/setoran", require("./routes/setoranRoutes"))
 app.use(errorHandler)
 
 app.listen(port, () => {
-    connectDB()
     console.log(`Server running on port ${port}`.bgBlue.underline.bold);
 })
