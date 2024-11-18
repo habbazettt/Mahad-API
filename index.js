@@ -3,15 +3,11 @@ const cors = require("cors");
 const { errorHandler } = require("./middlewares/errorMiddleware");
 const dotenv = require("dotenv").config();
 const port = process.env.PORT;
-const connectDB = require("./config/db");
-
-connectDB()
+const connectDB = require("./config/db")
 
 const app = express();
 
-app.use(cors({
-    origin: "*",
-}));
+app.use(cors());
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }))
@@ -27,5 +23,6 @@ app.use("/api/setoran", require("./routes/setoranRoutes"))
 app.use(errorHandler)
 
 app.listen(port, () => {
+    connectDB()
     console.log(`Server running on port ${port}`.bgBlue.underline.bold);
 })
