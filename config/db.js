@@ -1,7 +1,6 @@
-const blue = require('colors');
 const mongoose = require('mongoose');
 
-const url = process.env.MONGO_URI
+const url = 'mongodb+srv://habbazahubbal:admin@mahad-tahfidz.nmzc1.mongodb.net/mahad?retryWrites=true&w=majority&appName=mahad-tahfidz'
 
 const connectDB = async () => {
     try {
